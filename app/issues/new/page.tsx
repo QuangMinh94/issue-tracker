@@ -25,21 +25,23 @@ const NewIssuePage = () => {
     const [error, setError] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
 
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            setIsSubmitting(true)
+            await axios.post('/api/issues', data)
+            route.push('/issues')
+        } catch (error) {
+            setIsSubmitting(false)
+            setError('An unexpected error occured')
+        }
+    })
+
     return (
         //add text file component
         <div className="max-w-xl">
             {error && <p className="bg-red-700 mb-5">{error}</p>}
             <form className="space-y-3"
-                onSubmit={handleSubmit(async (data) => {
-                    try {
-                        setIsSubmitting(true)
-                        await axios.post('/api/issues', data)
-                        route.push('/issues')
-                    } catch (error) {
-                        setIsSubmitting(false)
-                        setError('An unexpected error occured')
-                    }
-                })}>
+                onSubmit={onSubmit}>
                 <TextField
                     fullWidth
                     id="outlined-required"
