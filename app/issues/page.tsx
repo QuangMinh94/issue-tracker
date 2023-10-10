@@ -1,10 +1,11 @@
-import CustomTable from "@/components/CustomTable";
+import CustomTable from "@/app/issues/CustomTable";
 import prisma from "@/prisma/client";
-import { Button } from "@mui/material";
-import Link from "next/link";
+import delay from 'delay';
+import IssueActions from "./issueActions";
 
 const IssuesPage = async () => {
     const issues = await prisma.issue.findMany();
+    await delay(2000)
     const rows: any[] = []
     issues.forEach((issue) => {
         rows.push({
@@ -16,16 +17,11 @@ const IssuesPage = async () => {
     })
     return (
         <>
-            <div className="mb-5">
-                <Button variant="contained"
-                    className="bg-blue-500">
-                    <Link href='/issues/new'>
-                        New issue
-                    </Link>
-                </Button>
-            </div>
+            <IssueActions />
             <div>
-                <CustomTable data={rows}></CustomTable>
+                {issues &&
+                    <CustomTable data={rows}></CustomTable>
+                }
             </div>
         </>
     )
