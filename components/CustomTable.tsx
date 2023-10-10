@@ -1,13 +1,15 @@
 'use client'
 
+import { Status } from '@prisma/client';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import Table from 'antd/es/table';
+import IssueStatusBadge from './IssueStatusBadge';
 
 interface DataType {
     key: React.Key;
     issue: string;
-    status: number;
-    createdAt: string;
+    status: Status;
+    createdAt: Date;
 }
 
 interface Props {
@@ -24,7 +26,8 @@ const columns: ColumnsType<DataType> = [
         //sortDirections: ['descend'],
         render(_value, record, _index) {
             return <span>{record.issue}
-                <div className='block md:hidden'>{record.status}</div>
+                <div className='block md:hidden'>
+                    <IssueStatusBadge status={record.status} /></div>
             </span>
         },
     },
@@ -32,9 +35,11 @@ const columns: ColumnsType<DataType> = [
         title: 'Status',
         dataIndex: 'status',
         //defaultSortOrder: 'descend',
-        sorter: (a, b) => a.status - b.status,
-
-        responsive: ['md']
+        sorter: (a, b) => a.status.length - b.status.length,
+        responsive: ['md'],
+        render(_value, record, _index) {
+            return <IssueStatusBadge status={record.status} />
+        },
     },
     {
         title: 'Created',
