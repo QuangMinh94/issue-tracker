@@ -1,6 +1,7 @@
 'use client'
 
 import { createIssueSchema } from "@/app/validationSchema";
+import ErrorMessage from "@/components/ErrorMessage";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from "@mui/material";
 import axios from 'axios';
@@ -43,13 +44,13 @@ const NewIssuePage = () => {
                     placeholder="title"
                     {...register('title')}
                 />
-                {errors.title && <p className="text-red-600">{errors.title.message}</p>}
+                <ErrorMessage>{errors.title?.message}</ErrorMessage>
                 <Controller
                     name='description'
                     control={control}
                     render={({ field }) => <SimpleMDE placeholder="Description" {...field} />}
                 />
-                {errors.description && <p className="text-red-600">{errors.description.message}</p>}
+                <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
                 <Button type="submit" variant="contained"
                     className="bg-blue-500">
