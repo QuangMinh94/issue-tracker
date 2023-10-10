@@ -2,6 +2,7 @@
 
 import { createIssueSchema } from "@/app/validationSchema";
 import ErrorMessage from "@/components/ErrorMessage";
+import Spinner from "@/components/Spinner";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from "@mui/material";
 import axios from 'axios';
@@ -22,6 +23,7 @@ const NewIssuePage = () => {
         resolver: zodResolver(createIssueSchema)
     })
     const [error, setError] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     return (
         //add text file component
@@ -30,10 +32,11 @@ const NewIssuePage = () => {
             <form className="space-y-3"
                 onSubmit={handleSubmit(async (data) => {
                     try {
+                        setIsSubmitting(true)
                         await axios.post('/api/issues', data)
                         route.push('/issues')
                     } catch (error) {
-                        console.log('Error')
+                        setIsSubmitting(false)
                         setError('An unexpected error occured')
                     }
                 })}>
@@ -52,9 +55,9 @@ const NewIssuePage = () => {
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-                <Button type="submit" variant="contained"
+                <Button disabled={isSubmitting} type="submit" variant="contained"
                     className="bg-blue-500">
-                    Submit new issue</Button>
+                    Submit new issue {isSubmitting && <Spinner />}</Button>
             </form>
         </div>
     )
