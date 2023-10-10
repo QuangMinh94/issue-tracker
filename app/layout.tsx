@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <GlobalTheme>
           <NavBar />
-          <main>
+          <main className='p-5'>
             {children}
           </main>
         </GlobalTheme>
