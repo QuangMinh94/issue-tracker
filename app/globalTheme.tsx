@@ -1,13 +1,17 @@
 'use client'
 
-import { ThemeProvider, useTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 type Prop = {
     children: any
 }
 
 const GlobalTheme = ({ children }: Prop) => {
-    const theme = useTheme();
+    const theme = createTheme({
+        typography: {
+            fontFamily: 'inherit'
+        }
+    })
 
     return (
         <ThemeProvider theme={theme}>
