@@ -1,10 +1,10 @@
 'use client'
 
+import CustomLink from '@/components/CustomLink';
 import { Status } from '@prisma/client';
 import { Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Table from 'antd/es/table';
-import Link from 'next/link';
 import IssueStatusBadge from '../../components/IssueStatusBadge';
 
 interface DataType {
@@ -62,7 +62,9 @@ const columns: ColumnsType<DataType> = [
         //sortDirections: ['descend'],
         render(_value, record, _index) {
             return <span>
-                <Link href={`/issues/${record.id}`}>{record.issue}</Link>
+                <CustomLink href={`/issues/${record.id}`}>
+                    {record.issue}
+                </CustomLink>
                 <div className='block md:hidden'>
                     <IssueStatusBadge status={record.status} /></div>
             </span>
