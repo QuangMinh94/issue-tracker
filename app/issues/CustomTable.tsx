@@ -1,11 +1,11 @@
 'use client'
 
 import CustomLink from '@/components/CustomLink';
+import IssueStatusBadge from '@/components/IssueStatusBadge';
 import { Status } from '@prisma/client';
 import { Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Table from 'antd/es/table';
-import IssueStatusBadge from '../../components/IssueStatusBadge';
 
 interface DataType {
     key: React.Key;
