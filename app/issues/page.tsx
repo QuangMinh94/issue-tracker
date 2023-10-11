@@ -10,6 +10,7 @@ const IssuesPage = async () => {
     issues.forEach((issue) => {
         rows.push({
             key: issue.id,
+            id: issue.id,
             issue: issue.title,
             status: issue.status,
             createdAt: issue.createdAt.toDateString()
