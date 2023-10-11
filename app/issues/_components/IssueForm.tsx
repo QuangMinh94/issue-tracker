@@ -1,6 +1,6 @@
 'use client'
 
-import { createIssueSchema } from "@/app/validationSchema";
+import { issueSchema } from "@/app/validationSchema";
 import ErrorMessage from "@/components/ErrorMessage";
 import Spinner from "@/components/Spinner";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,14 +17,14 @@ import { z } from 'zod';
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false })
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
     const route = useRouter()
     const { register, control, handleSubmit, formState: {
         errors
     } } = useForm<IssueFormData>({
-        resolver: zodResolver(createIssueSchema)
+        resolver: zodResolver(issueSchema)
     })
     const [error, setError] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
