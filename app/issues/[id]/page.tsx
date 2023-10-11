@@ -1,4 +1,6 @@
+import IssueStatusBadge from "@/components/IssueStatusBadge"
 import prisma from "@/prisma/client"
+import { Card, Space } from "antd"
 import { notFound } from "next/navigation"
 
 interface Props {
@@ -14,10 +16,14 @@ const IssueDetailPage = async ({ params }: Props) => {
 
     return (
         <div>
-            <p>{issueDetail.title}</p>
-            <p>{issueDetail.description}</p>
-            <p>{issueDetail.status}</p>
-            <p>{issueDetail.createdAt.toDateString()}</p>
+            <p className="font-black text-2xl">{issueDetail.title}</p>
+            <Space size={5} align='center' className="mb-2">
+                <IssueStatusBadge status={issueDetail.status} />
+                <p>{issueDetail.createdAt.toDateString()}</p>
+            </Space>
+            <Card>
+                <p>{issueDetail.description}</p>
+            </Card>
         </div>
     )
 }
