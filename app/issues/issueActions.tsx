@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
+import { Button } from "antd";
 import Link from "next/link";
 
 const IssueActions = () => {
     return (
         <div className="mb-5">
-            <Button variant="contained"
+            <Button type='primary'
                 className="bg-blue-500">
                 <Link href='/issues/new'>
                     New issue
