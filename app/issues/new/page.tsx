@@ -7,11 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from "@mui/material";
 import axios from 'axios';
 import "easymde/dist/easymde.min.css";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
-import SimpleMDE from "react-simplemde-editor";
+//import SimpleMDE from "react-simplemde-editor";
 import { z } from 'zod';
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false })
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -53,7 +56,9 @@ const NewIssuePage = () => {
                 <Controller
                     name='description'
                     control={control}
-                    render={({ field }) => <SimpleMDE placeholder="Description" {...field} />}
+                    render={({ field }) =>
+                        <SimpleMDE placeholder="Description" {...field}
+                        />}
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
