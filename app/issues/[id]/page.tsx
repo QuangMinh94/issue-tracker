@@ -1,8 +1,8 @@
-import IssueStatusBadge from "@/components/IssueStatusBadge"
 import prisma from "@/prisma/client"
-import { Card, Space } from "antd"
+import { Col, Row } from "antd"
 import { notFound } from "next/navigation"
-import ReactMarkDown from 'react-markdown'
+import EditIssueButton from "./EditIssueButton"
+import IssueDetails from "./IssueDetails"
 
 interface Props {
     params: { id: string }
@@ -16,16 +16,14 @@ const IssueDetailPage = async ({ params }: Props) => {
     if (!issueDetail) notFound()
 
     return (
-        <div>
-            <p className="font-black text-2xl">{issueDetail.title}</p>
-            <Space size={5} align='center' className="mb-2">
-                <IssueStatusBadge status={issueDetail.status} />
-                <p>{issueDetail.createdAt.toDateString()}</p>
-            </Space>
-            <Card className="prose mt-4">
-                <ReactMarkDown>{issueDetail.description}</ReactMarkDown>
-            </Card>
-        </div>
+        <Row gutter={5}>
+            <Col xs={24} md={12} lg={12}>
+                <IssueDetails issue={issueDetail} />
+            </Col>
+            <Col xs={24} md={12} lg={12}>
+                <EditIssueButton issueId={issueDetail.id} />
+            </Col>
+        </Row>
     )
 }
 
