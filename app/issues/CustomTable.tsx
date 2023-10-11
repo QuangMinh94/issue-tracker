@@ -4,10 +4,12 @@ import { Status } from '@prisma/client';
 import { Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Table from 'antd/es/table';
+import Link from 'next/link';
 import IssueStatusBadge from '../../components/IssueStatusBadge';
 
 interface DataType {
     key: React.Key;
+    id: string;
     issue: string;
     status: Status;
     createdAt: Date;
@@ -59,7 +61,8 @@ const columns: ColumnsType<DataType> = [
         sorter: (a, b) => a.issue.length - b.issue.length,
         //sortDirections: ['descend'],
         render(_value, record, _index) {
-            return <span>{record.issue}
+            return <span>
+                <Link href={`/issues/${record.id}`}>{record.issue}</Link>
                 <div className='block md:hidden'>
                     <IssueStatusBadge status={record.status} /></div>
             </span>
