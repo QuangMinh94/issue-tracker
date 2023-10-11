@@ -2,6 +2,8 @@ import IssueStatusBadge from "@/components/IssueStatusBadge"
 import prisma from "@/prisma/client"
 import { Card, Space } from "antd"
 import { notFound } from "next/navigation"
+import ReactMarkDown from 'react-markdown'
+
 
 interface Props {
     params: { id: string }
@@ -21,8 +23,8 @@ const IssueDetailPage = async ({ params }: Props) => {
                 <IssueStatusBadge status={issueDetail.status} />
                 <p>{issueDetail.createdAt.toDateString()}</p>
             </Space>
-            <Card>
-                <p>{issueDetail.description}</p>
+            <Card className="prose mt-4">
+                <ReactMarkDown>{issueDetail.description}</ReactMarkDown>
             </Card>
         </div>
     )
