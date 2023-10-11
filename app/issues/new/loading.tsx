@@ -1,9 +1,11 @@
+import { Card, Skeleton } from "antd"
 
 const LoadingNewIssuePage = () => {
     return (
-        <div>
-            Loading...
-        </div>
+        <Card className="max-w-xl">
+            <Skeleton.Input active={true} />
+            <Skeleton />
+        </Card>
     )
 }
 

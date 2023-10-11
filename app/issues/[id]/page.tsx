@@ -4,7 +4,6 @@ import { Card, Space } from "antd"
 import { notFound } from "next/navigation"
 import ReactMarkDown from 'react-markdown'
 
-
 interface Props {
     params: { id: string }
 }

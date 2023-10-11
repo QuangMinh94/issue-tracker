@@ -29,7 +29,7 @@ const skeletonColumn: ColumnsType<DataType> = [
         //sorter: (a, b) => a.issue.length - b.issue.length,
         //sortDirections: ['descend'],
         render() {
-            return <Skeleton.Input active={true} />
+            return <Skeleton.Input active={true} className='w-fit' />
         }
     },
     {
@@ -39,7 +39,7 @@ const skeletonColumn: ColumnsType<DataType> = [
         sorter: (a, b) => a.status.length - b.status.length,
         responsive: ['md'],
         render() {
-            return <Skeleton.Input active={true} />
+            return <Skeleton.Input active={true} className='w-fit' />
         }
     },
     {
@@ -47,7 +47,7 @@ const skeletonColumn: ColumnsType<DataType> = [
         dataIndex: 'createdAt',
         responsive: ['md'],
         render() {
-            return <Skeleton.Input active={true} />
+            return <Skeleton.Input active={true} className='w-fit' />
         }
     },
 ];
