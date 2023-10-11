@@ -1,13 +1,8 @@
-'use client'
-
-import { Card, Skeleton } from "antd"
+import IssueFormSkeleton from "../_components/IssueFormSkeleton"
 
 const LoadingNewIssuePage = () => {
     return (
-        <Card className="max-w-xl">
-            <Skeleton.Input active={true} />
-            <Skeleton />
-        </Card>
+        <IssueFormSkeleton />
     )
 }
 
