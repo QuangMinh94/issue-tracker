@@ -18,10 +18,10 @@ const IssueDetailPage = async ({ params }: Props) => {
 
     return (
         <Row gutter={5}>
-            <Col xs={24} md={16} lg={16}>
+            <Col xs={24} md={18} lg={18}>
                 <IssueDetails issue={issueDetail} />
             </Col>
-            <Col xs={24} md={8} lg={8}>
+            <Col xs={24} md={6} lg={6}>
                 <Space className="w-full" direction='vertical' size={10}>
                     <EditIssueButton issueId={issueDetail.id} />
                     <DeleteIssueButton issueId={issueDetail.id} />
