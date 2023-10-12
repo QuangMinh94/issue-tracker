@@ -10,24 +10,28 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [error, setError] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
 
     const showModal = () => {
         setOpen(true);
     };
 
     const handleDelete = async () => {
+        setOpen(false)
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
             setOpen(false);
         }, 3000);
         try {
+            setIsDeleting(true)
             //throw new Error()
             await axios.delete('/api/issues/' + issueId)
             router.push('/issues')
             router.refresh()
         }
         catch (error) {
+            setIsDeleting(false)
             setOpen(false)
             setError(true)
         }
@@ -39,7 +43,11 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
 
     return (
         <>
-            <Button className='w-full' type='primary' danger onClick={showModal}>Delete issue</Button>
+            <Button className='w-full'
+                type='primary'
+                danger onClick={showModal}
+                loading={isDeleting}
+            >Delete issue</Button>
             <Modal title="Warning"
                 open={open}
                 onCancel={handleCancel}
