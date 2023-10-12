@@ -9,6 +9,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
     const router = useRouter()
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
+    const [error, setError] = useState(false)
 
     const showModal = () => {
         setOpen(true);
@@ -20,10 +21,16 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
             setLoading(false);
             setOpen(false);
         }, 3000);
-
-        await axios.delete('/api/issues/' + issueId)
-        router.push('/issues')
-        router.refresh()
+        try {
+            //throw new Error()
+            await axios.delete('/api/issues/' + issueId)
+            router.push('/issues')
+            router.refresh()
+        }
+        catch (error) {
+            setOpen(false)
+            setError(true)
+        }
     };
 
     const handleCancel = () => {
@@ -49,6 +56,18 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
                     </Button>,
                 ]}>
                 <p>Are your sure want to delete this issue? This action cannot be undone</p>
+            </Modal>
+            <Modal title="Error"
+                open={error}
+                onCancel={() => setError(false)}
+                footer={[
+                    <Button key="back" type='primary'
+                        className='bg-gray-500'
+                        onClick={() => setError(false)}>
+                        Ok
+                    </Button>,
+                ]}>
+                <p>This issue cannot be deleted</p>
             </Modal>
         </>
     )
