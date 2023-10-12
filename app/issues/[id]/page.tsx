@@ -1,6 +1,7 @@
 import prisma from "@/prisma/client"
-import { Col, Row } from "antd"
+import { Col, Row, Space } from "antd"
 import { notFound } from "next/navigation"
+import DeleteIssueButton from "./DeleteIssueButton"
 import EditIssueButton from "./EditIssueButton"
 import IssueDetails from "./IssueDetails"
 
@@ -17,11 +18,14 @@ const IssueDetailPage = async ({ params }: Props) => {
 
     return (
         <Row gutter={5}>
-            <Col xs={24} md={12} lg={12}>
+            <Col xs={24} md={16} lg={16}>
                 <IssueDetails issue={issueDetail} />
             </Col>
-            <Col xs={24} md={12} lg={12}>
-                <EditIssueButton issueId={issueDetail.id} />
+            <Col xs={24} md={8} lg={8}>
+                <Space className="w-full" direction='vertical' size={10}>
+                    <EditIssueButton issueId={issueDetail.id} />
+                    <DeleteIssueButton issueId={issueDetail.id} />
+                </Space>
             </Col>
         </Row>
     )

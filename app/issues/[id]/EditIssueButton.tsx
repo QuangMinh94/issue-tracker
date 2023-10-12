@@ -7,7 +7,7 @@ const EditIssueButton = ({ issueId }: { issueId: number }) => {
     return (
         <Button type='primary'
             icon={<FontAwesomeIcon icon={faEdit} spin={true} />}
-            className="bg-blue-500">
+            className="bg-blue-500 w-full">
             <Link href={`/issues/${issueId}/edit`}>Edit issue</Link>
         </Button>
     )
