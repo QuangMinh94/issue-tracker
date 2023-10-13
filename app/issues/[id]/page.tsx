@@ -1,12 +1,12 @@
-import authOptions from "@/app/auth/authOptions"
-import prisma from "@/prisma/client"
-import { Col, Row, Space } from "antd"
-import { getServerSession } from "next-auth"
-import { notFound } from "next/navigation"
-import AssigneeSelect from "./AssigneeSelect"
-import DeleteIssueButton from "./DeleteIssueButton"
-import EditIssueButton from "./EditIssueButton"
-import IssueDetails from "./IssueDetails"
+import authOptions from '@/app/auth/authOptions'
+import prisma from '@/prisma/client'
+import { Col, Row, Space } from 'antd'
+import { getServerSession } from 'next-auth'
+import { notFound } from 'next/navigation'
+import AssigneeSelect from './AssigneeSelect'
+import DeleteIssueButton from './DeleteIssueButton'
+import EditIssueButton from './EditIssueButton'
+import IssueDetails from './IssueDetails'
 
 interface Props {
     params: { id: string }
@@ -14,9 +14,9 @@ interface Props {
 
 const IssueDetailPage = async ({ params }: Props) => {
     const session = await getServerSession(authOptions)
-    const issueDetail = await prisma.issue.findUnique(
-        { where: { id: parseInt(params.id) } }
-    )
+    const issueDetail = await prisma.issue.findUnique({
+        where: { id: parseInt(params.id) },
+    })
 
     if (!issueDetail) notFound()
 
@@ -25,14 +25,15 @@ const IssueDetailPage = async ({ params }: Props) => {
             <Col xs={24} md={18} lg={18}>
                 <IssueDetails issue={issueDetail} />
             </Col>
-            {session &&
+            {session && (
                 <Col xs={24} md={6} lg={6}>
-                    <Space className="w-full" direction='vertical' size={10}>
-                        <AssigneeSelect />
+                    <Space className="w-full" direction="vertical" size={10}>
+                        <AssigneeSelect issue={issueDetail} />
                         <EditIssueButton issueId={issueDetail.id} />
                         <DeleteIssueButton issueId={issueDetail.id} />
                     </Space>
-                </Col>}
+                </Col>
+            )}
         </Row>
     )
 }
