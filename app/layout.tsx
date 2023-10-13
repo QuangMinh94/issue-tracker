@@ -3,6 +3,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NavBar from './NavBar';
+import AuthProvider from "./auth/Provider";
 import GlobalTheme from './globalTheme';
 import './globals.css';
 config.autoAddCss = false;
@@ -23,14 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GlobalTheme>
-          <NavBar />
-          <main className='p-5'>
-            <div className="max-w-7xl">
-              {children}
-            </div>
-          </main>
-        </GlobalTheme>
+        <AuthProvider>
+          <GlobalTheme>
+            <NavBar />
+            <main className='p-5'>
+              <div className="max-w-7xl">
+                {children}
+              </div>
+            </main>
+          </GlobalTheme>
+        </AuthProvider>
       </body>
     </html>
   )
