@@ -1,17 +1,15 @@
 'use client'
 
-import { Layout } from 'antd'
+import { Avatar, Dropdown } from 'antd'
 import classnames from "classnames"
 import { useSession } from 'next-auth/react'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { AiFillBug } from 'react-icons/ai'
 
-const { Content } = Layout;
-
 const NavBar = () => {
     const currentPath = usePathname();
-    const { status, data } = useSession();
+    const { status, data: session } = useSession();
     const links = [
         { label: 'Dashboard', href: '/' },
         { label: 'Issues', href: '/issues' },
@@ -40,7 +38,20 @@ const NavBar = () => {
                 </ul>
             </div>
             <div>
-                {status === 'authenticated' && <Link href='api/auth/signout'>Logout</Link>}
+                {status === 'authenticated' &&
+                    <Dropdown menu={{
+                        items: [{
+                            label: session.user?.email,
+                            key: '0',
+                        }, {
+                            label: (<Link href='api/auth/signout'>Logout</Link>),
+                            key: '1',
+                        }]
+                    }}>
+                        <Avatar className='cursor-pointer' src={session?.user!.image} alt='?' />
+                    </Dropdown>
+                }
+                {/* {status === 'authenticated' && <Link href='api/auth/signout'>Logout</Link>} */}
                 {status === 'unauthenticated' && <Link href='api/auth/signin'>Login</Link>}
             </div>
 

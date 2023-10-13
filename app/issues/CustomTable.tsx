@@ -65,7 +65,7 @@ const columns: ColumnsType<DataType> = [
                 <CustomLink href={`/issues/${record.id}`}>
                     {record.issue}
                 </CustomLink>
-                <div className='block sm:hidden'>
+                <div className='block md:hidden'>
                     <IssueStatusBadge status={record.status} /></div>
             </span>
         },
@@ -75,7 +75,7 @@ const columns: ColumnsType<DataType> = [
         dataIndex: 'status',
         //defaultSortOrder: 'descend',
         sorter: (a, b) => a.status.length - b.status.length,
-        responsive: ['sm'],
+        responsive: ['md'],
         render(_value, record, _index) {
             return <IssueStatusBadge status={record.status} />
         },
@@ -84,7 +84,7 @@ const columns: ColumnsType<DataType> = [
         title: 'Created',
         dataIndex: 'createdAt',
 
-        responsive: ['sm']
+        responsive: ['md']
     },
 ];
 
