@@ -1,25 +1,36 @@
 'use client'
 
-import { User } from '@prisma/client'
-import { Select } from 'antd'
+import { useQuery } from '@tanstack/react-query'
+import { Select, Skeleton } from 'antd'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { User } from 'next-auth'
+
+type OptionProps = {
+    label: string | null | undefined,
+    value: string | null | undefined
+}
 
 const AssigneeSelect = () => {
-    //const [users, setUsers] = useState<User[]>([])
-    const [option, setOptions] = useState<any[]>([])
+    const { data: option, error, isLoading } = useQuery<OptionProps[]>({
+        queryKey: ['option'],
+        queryFn: () => {
+            return axios.get('/api/users')
+                .then(res => res.data as User[])
+                .then(res => {
+                    const _option: OptionProps[] = []
+                    res.forEach((resChild) => {
+                        _option.push({ label: resChild.name, value: resChild.id })
+                    })
+                    return _option
+                })
+        },
+        staleTime: 60 * 1000, //60sec
+        retry: 3
+    })
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { data } = await axios.get<User[]>('/api/users')
-            const _option: any[] = []
-            data.forEach((user) => {
-                _option.push({ label: user.name, value: user.id })
-            })
-            setOptions(_option)
-        }
-        fetchUser()
-    }, [])
+    if (isLoading) return <Skeleton.Input className='w-fit' active={true} />
+
+    if (error) return null
 
     return (
         <Select
