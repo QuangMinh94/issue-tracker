@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, Dropdown } from 'antd'
+import { Avatar, Dropdown, Skeleton } from 'antd'
 import classnames from "classnames"
 import { useSession } from 'next-auth/react'
 import Link from "next/link"
@@ -52,7 +52,7 @@ const NavLink = () => {
 const AuthStatus = () => {
     const { status, data: session } = useSession();
 
-    if (status === 'loading') return null
+    if (status === 'loading') return <Skeleton.Avatar shape='circle' active={true} />
 
     if (status === 'unauthenticated')
         return <Link className='nav-link' href='api/auth/signin'>Login</Link>
