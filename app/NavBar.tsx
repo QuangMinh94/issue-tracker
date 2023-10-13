@@ -1,10 +1,13 @@
 'use client'
 
+import { Layout } from 'antd'
 import classnames from "classnames"
 import { useSession } from 'next-auth/react'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { AiFillBug } from 'react-icons/ai'
+
+const { Content } = Layout;
 
 const NavBar = () => {
     const currentPath = usePathname();
@@ -15,28 +18,32 @@ const NavBar = () => {
     ]
 
     return (
-        <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
-            <Link href='/'><AiFillBug /></Link>
-            <ul className="flex space-x-6">
-                {links.map((link) => (
-                    <li key={link.href}>
-                        <Link
-                            //className={`${link.href === currentPath ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-800 transition-colors'}`}
-                            className={classnames({
-                                'text-zinc-900': link.href === currentPath,
-                                'text-zinc-500': link.href !== currentPath,
-                                'hover:text-zinc-800 transition-colors': true
-                            })}
-                            href={link.href}>
-                            {link.label}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+        <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center justify-between">
+
+            <div className="flex items-center gap-3">
+                <Link href='/'><AiFillBug /></Link>
+                <ul className="flex space-x-6">
+                    {links.map((link) => (
+                        <li key={link.href}>
+                            <Link
+                                //className={`${link.href === currentPath ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-800 transition-colors'}`}
+                                className={classnames({
+                                    'text-zinc-900': link.href === currentPath,
+                                    'text-zinc-500': link.href !== currentPath,
+                                    'hover:text-zinc-800 transition-colors': true
+                                })}
+                                href={link.href}>
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
             <div>
                 {status === 'authenticated' && <Link href='api/auth/signout'>Logout</Link>}
                 {status === 'unauthenticated' && <Link href='api/auth/signin'>Login</Link>}
             </div>
+
         </nav>
     )
 }
