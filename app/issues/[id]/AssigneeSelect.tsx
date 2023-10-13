@@ -13,16 +13,14 @@ type OptionProps = {
 const AssigneeSelect = () => {
     const { data: option, error, isLoading } = useQuery<OptionProps[]>({
         queryKey: ['option'],
-        queryFn: () => {
-            return axios.get('/api/users')
-                .then(res => res.data as User[])
-                .then(res => {
-                    const _option: OptionProps[] = []
-                    res.forEach((resChild) => {
-                        _option.push({ label: resChild.name, value: resChild.id })
-                    })
-                    return _option
-                })
+        queryFn: async () => {
+            const res = await axios.get('/api/users')
+            const res_1 = res.data as User[]
+            const _option: OptionProps[] = []
+            res_1.forEach((resChild) => {
+                _option.push({ label: resChild.name, value: resChild.id })
+            })
+            return _option
         },
         staleTime: 60 * 1000, //60sec
         retry: 3
