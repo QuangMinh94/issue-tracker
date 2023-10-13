@@ -11,14 +11,8 @@ type OptionProps = {
     value: string | null | undefined
 }
 
-const AssigneeSelect = ({ issue }: { issue: Issue }) => {
-    const [messageApi, contextHolder] = message.useMessage()
-
-    const {
-        data: option,
-        error,
-        isLoading,
-    } = useQuery<OptionProps[]>({
+const useUser = () =>
+    useQuery<OptionProps[]>({
         queryKey: ['option'],
         queryFn: async () => {
             const res = await axios.get('/api/users')
@@ -35,6 +29,21 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         retry: 3,
     })
 
+const AssigneeSelect = ({ issue }: { issue: Issue }) => {
+    const [messageApi, contextHolder] = message.useMessage()
+
+    const { data: option, error, isLoading } = useUser()
+
+    const assignUser = async (e: any) => {
+        try {
+            await axios.patch('/api/issues/' + issue.id, {
+                assignedToUserId: e || null,
+            })
+        } catch {
+            messageApi.error('Changes could not be saved')
+        }
+    }
+
     if (isLoading) return <Skeleton.Input className="w-fit" active={true} />
 
     if (error) return null
@@ -48,15 +57,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
                 defaultValue={issue.assignedToUserId || null}
                 //style={{ width: 120 }}
                 //onChange={handleChange}
-                onSelect={async (e) => {
-                    try {
-                        await axios.patch('/api/issues/' + issue.id, {
-                            assignedToUserId: e || null,
-                        })
-                    } catch {
-                        messageApi.error('Changes could not be saved')
-                    }
-                }}
+                onSelect={assignUser}
                 options={option}
             />
         </>
