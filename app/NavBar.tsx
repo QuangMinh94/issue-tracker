@@ -48,7 +48,10 @@ const NavBar = () => {
                             key: '1',
                         }]
                     }}>
-                        <Avatar className='cursor-pointer' src={session?.user!.image} alt='?' />
+                        <Avatar
+                            className='cursor-pointer'
+                            src={session?.user!.image}
+                            alt='?' />
                     </Dropdown>
                 }
                 {/* {status === 'authenticated' && <Link href='api/auth/signout'>Logout</Link>} */}
