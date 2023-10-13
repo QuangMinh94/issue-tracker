@@ -3,6 +3,7 @@ import prisma from "@/prisma/client"
 import { Col, Row, Space } from "antd"
 import { getServerSession } from "next-auth"
 import { notFound } from "next/navigation"
+import AssigneeSelect from "./AssigneeSelect"
 import DeleteIssueButton from "./DeleteIssueButton"
 import EditIssueButton from "./EditIssueButton"
 import IssueDetails from "./IssueDetails"
@@ -27,6 +28,7 @@ const IssueDetailPage = async ({ params }: Props) => {
             {session &&
                 <Col xs={24} md={6} lg={6}>
                     <Space className="w-full" direction='vertical' size={10}>
+                        <AssigneeSelect />
                         <EditIssueButton issueId={issueDetail.id} />
                         <DeleteIssueButton issueId={issueDetail.id} />
                     </Space>
