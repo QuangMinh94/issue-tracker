@@ -1,3 +1,4 @@
+import QueryClientProvider from "@/QueryClientProvider";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import type { Metadata } from 'next';
@@ -24,16 +25,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <GlobalTheme>
-            <NavBar />
-            <main className='p-5'>
-              <div className="max-w-7xl">
-                {children}
-              </div>
-            </main>
-          </GlobalTheme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <GlobalTheme>
+              <NavBar />
+              <main className='p-5'>
+                <div className="max-w-7xl">
+                  {children}
+                </div>
+              </main>
+            </GlobalTheme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   )
