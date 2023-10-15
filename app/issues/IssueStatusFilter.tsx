@@ -1,6 +1,7 @@
 'use client'
 
 import { Select } from 'antd'
+import { useRouter } from 'next/navigation'
 
 const statuses = [
     {
@@ -22,7 +23,18 @@ const statuses = [
 ]
 
 const IssueStatusFilter = () => {
-    return <Select placeholder="Filter by status" options={statuses}></Select>
+    const router = useRouter()
+    return (
+        <Select
+            className="w-48"
+            placeholder="Filter by status"
+            options={statuses}
+            onSelect={(status) => {
+                const query = status ? `?status=${status}` : ''
+                router.push('/issues' + query)
+            }}
+        ></Select>
+    )
 }
 
 export default IssueStatusFilter
