@@ -35,11 +35,9 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
     const columns: ColumnsType<DataType> = [
         {
             title: (
-                <HeaderLink
-                    children={'Issue'}
-                    searchParams={searchParams}
-                    columnName={'title'}
-                />
+                <HeaderLink searchParams={searchParams} columnName={'title'}>
+                    Title
+                </HeaderLink>
             ),
             dataIndex: 'issue',
             width: '10vw',
@@ -58,11 +56,9 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
         },
         {
             title: (
-                <HeaderLink
-                    children={'Status'}
-                    searchParams={searchParams}
-                    columnName={'status'}
-                />
+                <HeaderLink searchParams={searchParams} columnName={'status'}>
+                    Status
+                </HeaderLink>
             ),
             width: '2vw',
             dataIndex: 'status',
@@ -74,10 +70,11 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
         {
             title: (
                 <HeaderLink
-                    children={'Created'}
                     searchParams={searchParams}
                     columnName={'createdAt'}
-                />
+                >
+                    Created
+                </HeaderLink>
             ),
             width: '3vw',
             dataIndex: 'createdAt',
