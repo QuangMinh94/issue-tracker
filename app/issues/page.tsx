@@ -1,9 +1,23 @@
-import CustomTable from "@/app/issues/CustomTable";
-import prisma from "@/prisma/client";
-import IssueActions from "./issueActions";
+import CustomTable from '@/app/issues/CustomTable'
+import prisma from '@/prisma/client'
+import { Status } from '@prisma/client'
+import IssueActions from './issueActions'
 
-const IssuesPage = async () => {
-    const issues = await prisma.issue.findMany();
+interface Props {
+    searchParams: { status: Status }
+}
+
+const IssuesPage = async ({ searchParams }: Props) => {
+    const statuses = Object.values(Status)
+    const status = statuses.includes(searchParams.status)
+        ? searchParams.status
+        : undefined
+
+    const issues = await prisma.issue.findMany({
+        where: {
+            status,
+        },
+    })
     const rows: any[] = []
     issues.forEach((issue) => {
         rows.push({
@@ -11,17 +25,13 @@ const IssuesPage = async () => {
             id: issue.id,
             issue: issue.title,
             status: issue.status,
-            createdAt: issue.createdAt.toDateString()
+            createdAt: issue.createdAt.toDateString(),
         })
     })
     return (
         <>
             <IssueActions />
-            <div>
-                {issues &&
-                    <CustomTable data={rows}></CustomTable>
-                }
-            </div>
+            <div>{issues && <CustomTable data={rows}></CustomTable>}</div>
         </>
     )
 }
