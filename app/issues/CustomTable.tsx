@@ -2,10 +2,14 @@
 
 import CustomLink from '@/components/CustomLink'
 import IssueStatusBadge from '@/components/IssueStatusBadge'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Status } from '@prisma/client'
 import { Skeleton } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import Table from 'antd/es/table'
+import Link from 'next/link'
+import { ReactNode } from 'react'
 
 interface DataType {
     key: React.Key
@@ -18,6 +22,36 @@ interface DataType {
 interface Props {
     data: any[]
     loading?: boolean
+    searchParams?: any
+}
+
+const HeaderLink = ({
+    children,
+    searchParams,
+    columnName,
+}: {
+    children: ReactNode
+    searchParams: any
+    columnName: string
+}) => {
+    return (
+        <>
+            <Link
+                className="text-black hover:text-black"
+                href={{
+                    query: { ...searchParams, orderBy: columnName },
+                }}
+            >
+                {children}
+            </Link>
+            {columnName === searchParams.orderBy && (
+                <FontAwesomeIcon
+                    className="ml-3 cursor-pointer"
+                    icon={faArrowUp}
+                />
+            )}
+        </>
+    )
 }
 
 const skeletonColumn: ColumnsType<DataType> = [
@@ -35,8 +69,6 @@ const skeletonColumn: ColumnsType<DataType> = [
     {
         title: 'Status',
         dataIndex: 'status',
-        //defaultSortOrder: 'descend',
-        sorter: (a, b) => a.status.length - b.status.length,
         render() {
             return <Skeleton.Input active={true} className="w-fit" />
         },
@@ -50,45 +82,57 @@ const skeletonColumn: ColumnsType<DataType> = [
     },
 ]
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: 'Issue',
-        dataIndex: 'issue',
-        // specify the condition of filtering result
-        // here is that finding the name started with `value`
-        sorter: (a, b) => a.issue.length - b.issue.length,
-        //sortDirections: ['descend'],
-        render(_value, record, _index) {
-            return (
-                <span>
-                    <CustomLink href={`/issues/${record.id}`}>
-                        {record.issue}
-                    </CustomLink>
-                    <div className="block md:hidden">
-                        <IssueStatusBadge status={record.status} />
-                    </div>
-                </span>
-            )
+const CustomTable = ({ data, loading, searchParams }: Props) => {
+    const columns: ColumnsType<DataType> = [
+        {
+            title: (
+                <HeaderLink
+                    children={'Issue'}
+                    searchParams={searchParams}
+                    columnName={'Issue'}
+                />
+            ),
+            dataIndex: 'issue',
+            render(_value, record, _index) {
+                return (
+                    <span>
+                        <CustomLink href={`/issues/${record.id}`}>
+                            {record.issue}
+                        </CustomLink>
+                        <div className="block md:hidden">
+                            <IssueStatusBadge status={record.status} />
+                        </div>
+                    </span>
+                )
+            },
         },
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-        //defaultSortOrder: 'descend',
-        sorter: (a, b) => a.status.length - b.status.length,
-        responsive: ['md'],
-        render(_value, record, _index) {
-            return <IssueStatusBadge status={record.status} />
+        {
+            title: (
+                <HeaderLink
+                    children={'Status'}
+                    searchParams={searchParams}
+                    columnName={'Status'}
+                />
+            ),
+            dataIndex: 'status',
+            responsive: ['md'],
+            render(_value, record, _index) {
+                return <IssueStatusBadge status={record.status} />
+            },
         },
-    },
-    {
-        title: 'Created',
-        dataIndex: 'createdAt',
-        responsive: ['md'],
-    },
-]
+        {
+            title: (
+                <HeaderLink
+                    children={'Created'}
+                    searchParams={searchParams}
+                    columnName={'Created'}
+                />
+            ),
+            dataIndex: 'createdAt',
+            responsive: ['md'],
+        },
+    ]
 
-const CustomTable = ({ data, loading }: Props) => {
     return (
         <Table columns={loading ? skeletonColumn : columns} dataSource={data} />
     )
