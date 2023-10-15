@@ -1,6 +1,7 @@
 import prisma from '@/prisma/client'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { Col, Flex, Row } from 'antd'
+import { Metadata } from 'next'
 import IssueChart from './IssueChart'
 import IssueSummary from './IssueSummary'
 import LatestIssues from './LatestIssues'
@@ -36,4 +37,9 @@ export default async function Home() {
             </Col>
         </Row>
     )
+}
+
+export const metadata: Metadata = {
+    title: 'Issue Tracker - Dashboard',
+    description: 'View a summary of project issues',
 }
