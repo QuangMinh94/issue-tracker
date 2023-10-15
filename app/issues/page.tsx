@@ -1,7 +1,7 @@
-import CustomTable, { IssueQuery, columnsTitle } from '@/app/issues/CustomTable'
+import CustomTable, { IssueQuery } from '@/app/issues/CustomTable'
 import Pagination from '@/components/Pagination'
 import prisma from '@/prisma/client'
-import { Status } from '@prisma/client'
+import { Issue, Status } from '@prisma/client'
 import { Flex } from 'antd'
 import IssueActions from './issueActions'
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
-    console.log('yo page', columnsTitle)
+    //console.log('yo page', columnsTitle)
     const statuses = Object.values(Status)
     const status = searchParams.status
         ? statuses.includes(searchParams.status)
@@ -18,10 +18,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
             : undefined
         : undefined
 
-    //const columns: (keyof Issue)[] = ['status', 'title', 'createdAt']
+    const columns: (keyof Issue)[] = ['status', 'title', 'createdAt']
 
     const orderBy = searchParams.orderBy
-        ? columnsTitle.includes(searchParams.orderBy)
+        ? columns.includes(searchParams.orderBy)
             ? { [searchParams.orderBy]: 'asc' }
             : undefined
         : undefined
