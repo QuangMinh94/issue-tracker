@@ -9,14 +9,25 @@ interface Props {
 
 const IssuesPage = async ({ searchParams }: Props) => {
     const statuses = Object.values(Status)
-    const status = statuses.includes(searchParams.status)
-        ? searchParams.status
+    const status = searchParams.status
+        ? statuses.includes(searchParams.status)
+            ? searchParams.status
+            : undefined
+        : undefined
+
+    const columns: (keyof Issue)[] = ['status', 'title', 'createdAt']
+
+    const orderBy = searchParams.orderBy
+        ? columns.includes(searchParams.orderBy)
+            ? { [searchParams.orderBy]: 'asc' }
+            : undefined
         : undefined
 
     const issues = await prisma.issue.findMany({
         where: {
             status,
         },
+        orderBy,
     })
     const rows: any[] = []
     issues.forEach((issue) => {

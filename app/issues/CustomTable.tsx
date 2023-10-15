@@ -89,7 +89,7 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
                 <HeaderLink
                     children={'Issue'}
                     searchParams={searchParams}
-                    columnName={'Issue'}
+                    columnName={'title'}
                 />
             ),
             dataIndex: 'issue',
@@ -111,7 +111,7 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
                 <HeaderLink
                     children={'Status'}
                     searchParams={searchParams}
-                    columnName={'Status'}
+                    columnName={'status'}
                 />
             ),
             dataIndex: 'status',
@@ -125,7 +125,7 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
                 <HeaderLink
                     children={'Created'}
                     searchParams={searchParams}
-                    columnName={'Created'}
+                    columnName={'createdAt'}
                 />
             ),
             dataIndex: 'createdAt',
