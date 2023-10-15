@@ -52,6 +52,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
             createdAt: issue.createdAt.toDateString(),
         })
     })
+
     return (
         <>
             <IssueActions />
