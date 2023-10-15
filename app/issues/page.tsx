@@ -1,10 +1,10 @@
 import CustomTable from '@/app/issues/CustomTable'
 import prisma from '@/prisma/client'
-import { Status } from '@prisma/client'
+import { Issue, Status } from '@prisma/client'
 import IssueActions from './issueActions'
 
 interface Props {
-    searchParams: { status: Status }
+    searchParams: { status: Status; orderBy: keyof Issue }
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -31,7 +31,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
     return (
         <>
             <IssueActions />
-            <div>{issues && <CustomTable data={rows}></CustomTable>}</div>
+            <div>
+                {issues && (
+                    <CustomTable data={rows} searchParams={searchParams} />
+                )}
+            </div>
         </>
     )
 }
