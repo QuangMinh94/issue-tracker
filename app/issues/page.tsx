@@ -3,6 +3,7 @@ import Pagination from '@/components/Pagination'
 import prisma from '@/prisma/client'
 import { Issue, Status } from '@prisma/client'
 import { Flex } from 'antd'
+import { Metadata } from 'next'
 import IssueActions from './issueActions'
 
 interface Props {
@@ -75,3 +76,8 @@ export const dynamic = 'force-dynamic'
 /* export const revalidate = 60 */
 
 export default IssuesPage
+
+export const metadata: Metadata = {
+    title: 'Issue Tracker - Issue List',
+    description: 'View all issues',
+}

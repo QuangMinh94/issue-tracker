@@ -5,9 +5,9 @@ import ReactMarkDown from 'react-markdown'
 
 const IssueDetails = ({ issue }: { issue: Issue }) => {
     return (
-        <div className='mb-3'>
+        <div className="mb-3">
             <p className="font-black text-2xl">{issue.title}</p>
-            <Space size={5} align='center' className="mb-2">
+            <Space size={5} align="center" className="mb-2">
                 <IssueStatusBadge status={issue.status} />
                 <p>{issue.createdAt.toDateString()}</p>
             </Space>
