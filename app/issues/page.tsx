@@ -1,18 +1,16 @@
-import CustomTable from '@/app/issues/CustomTable'
+import CustomTable, { IssueQuery, columnsTitle } from '@/app/issues/CustomTable'
 import Pagination from '@/components/Pagination'
 import prisma from '@/prisma/client'
-import { Issue, Status } from '@prisma/client'
+import { Status } from '@prisma/client'
+import { Flex } from 'antd'
 import IssueActions from './issueActions'
 
 interface Props {
-    searchParams: {
-        status: Status
-        orderBy: keyof Issue
-        page: string
-    }
+    searchParams: IssueQuery
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
+    console.log('yo page', columnsTitle)
     const statuses = Object.values(Status)
     const status = searchParams.status
         ? statuses.includes(searchParams.status)
@@ -20,10 +18,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
             : undefined
         : undefined
 
-    const columns: (keyof Issue)[] = ['status', 'title', 'createdAt']
+    //const columns: (keyof Issue)[] = ['status', 'title', 'createdAt']
 
     const orderBy = searchParams.orderBy
-        ? columns.includes(searchParams.orderBy)
+        ? columnsTitle.includes(searchParams.orderBy)
             ? { [searchParams.orderBy]: 'asc' }
             : undefined
         : undefined
@@ -54,21 +52,21 @@ const IssuesPage = async ({ searchParams }: Props) => {
     })
 
     return (
-        <>
+        <Flex vertical gap={10}>
             <IssueActions />
             <div>
                 {issues && (
                     <>
                         <CustomTable data={rows} searchParams={searchParams} />
-                        <Pagination
-                            itemCount={issueCount}
-                            pageSize={pageSize}
-                            currentPage={page}
-                        />
                     </>
                 )}
             </div>
-        </>
+            <Pagination
+                itemCount={issueCount}
+                pageSize={pageSize}
+                currentPage={page}
+            />
+        </Flex>
     )
 }
 

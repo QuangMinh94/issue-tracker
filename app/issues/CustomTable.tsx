@@ -4,7 +4,7 @@ import CustomLink from '@/components/CustomLink'
 import IssueStatusBadge from '@/components/IssueStatusBadge'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Status } from '@prisma/client'
+import { Issue, Status } from '@prisma/client'
 import { Skeleton } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import Table from 'antd/es/table'
@@ -19,68 +19,17 @@ interface DataType {
     createdAt: Date
 }
 
+export interface IssueQuery {
+    status: Status
+    orderBy: keyof Issue
+    page: string
+}
+
 interface Props {
     data: any[]
     loading?: boolean
-    searchParams?: any
+    searchParams?: IssueQuery
 }
-
-const HeaderLink = ({
-    children,
-    searchParams,
-    columnName,
-}: {
-    children: ReactNode
-    searchParams: any
-    columnName: string
-}) => {
-    return (
-        <>
-            <Link
-                className="text-black hover:text-black"
-                href={{
-                    query: { ...searchParams, orderBy: columnName },
-                }}
-            >
-                {children}
-            </Link>
-            {columnName === searchParams.orderBy && (
-                <FontAwesomeIcon
-                    className="ml-3 cursor-pointer"
-                    icon={faArrowUp}
-                />
-            )}
-        </>
-    )
-}
-
-const skeletonColumn: ColumnsType<DataType> = [
-    {
-        title: 'Issue',
-        dataIndex: 'issue',
-        // specify the condition of filtering result
-        // here is that finding the name started with `value`
-        //sorter: (a, b) => a.issue.length - b.issue.length,
-        //sortDirections: ['descend'],
-        render() {
-            return <Skeleton.Input active={true} className="w-fit" />
-        },
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-        render() {
-            return <Skeleton.Input active={true} className="w-fit" />
-        },
-    },
-    {
-        title: 'Created',
-        dataIndex: 'createdAt',
-        render() {
-            return <Skeleton.Input active={true} className="w-fit" />
-        },
-    },
-]
 
 const CustomTable = ({ data, loading, searchParams }: Props) => {
     const columns: ColumnsType<DataType> = [
@@ -140,15 +89,64 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
         <Table
             columns={loading ? skeletonColumn : columns}
             dataSource={data}
-            /* pagination={{
-                showLessItems: true,
-                defaultPageSize: 10,
-                showSizeChanger: true,
-                pageSizeOptions: ['10', '20', '30'],
-            }} */
             pagination={false}
         />
     )
 }
+
+const HeaderLink = ({
+    children,
+    searchParams,
+    columnName,
+}: {
+    children: ReactNode
+    searchParams: any
+    columnName: string
+}) => {
+    return (
+        <>
+            <Link
+                className="text-black hover:text-black"
+                href={{
+                    query: { ...searchParams, orderBy: columnName },
+                }}
+            >
+                {children}
+            </Link>
+            {columnName === searchParams.orderBy && (
+                <FontAwesomeIcon
+                    className="ml-3 cursor-pointer"
+                    icon={faArrowUp}
+                />
+            )}
+        </>
+    )
+}
+
+const skeletonColumn: ColumnsType<DataType> = [
+    {
+        title: 'Issue',
+        dataIndex: 'issue',
+        render() {
+            return <Skeleton.Input active={true} className="w-fit" />
+        },
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
+        render() {
+            return <Skeleton.Input active={true} className="w-fit" />
+        },
+    },
+    {
+        title: 'Created',
+        dataIndex: 'createdAt',
+        render() {
+            return <Skeleton.Input active={true} className="w-fit" />
+        },
+    },
+]
+
+export const columnsTitle = skeletonColumn.map((column) => column.key)
 
 export default CustomTable
