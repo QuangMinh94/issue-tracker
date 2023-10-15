@@ -93,6 +93,7 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
                 />
             ),
             dataIndex: 'issue',
+            width: '10vw',
             render(_value, record, _index) {
                 return (
                     <span>
@@ -114,6 +115,7 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
                     columnName={'status'}
                 />
             ),
+            width: '2vw',
             dataIndex: 'status',
             responsive: ['md'],
             render(_value, record, _index) {
@@ -128,13 +130,24 @@ const CustomTable = ({ data, loading, searchParams }: Props) => {
                     columnName={'createdAt'}
                 />
             ),
+            width: '3vw',
             dataIndex: 'createdAt',
             responsive: ['md'],
         },
     ]
 
     return (
-        <Table columns={loading ? skeletonColumn : columns} dataSource={data} />
+        <Table
+            columns={loading ? skeletonColumn : columns}
+            dataSource={data}
+            /* pagination={{
+                showLessItems: true,
+                defaultPageSize: 10,
+                showSizeChanger: true,
+                pageSizeOptions: ['10', '20', '30'],
+            }} */
+            pagination={false}
+        />
     )
 }
 
