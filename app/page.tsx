@@ -1,6 +1,6 @@
 import prisma from '@/prisma/client'
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import IssueSummary from './IssueSummary'
+import IssueChart from './IssueChart'
 export default async function Home() {
     const open = await prisma.issue.count({
         where: { status: 'OPEN' },
@@ -12,5 +12,5 @@ export default async function Home() {
         where: { status: 'CLOSED' },
     })
 
-    return <IssueSummary open={open} inProgress={inProgress} closed={closed} />
+    return <IssueChart open={open} inProgress={inProgress} closed={closed} />
 }
